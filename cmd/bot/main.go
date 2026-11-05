@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"log/slog"
+	"net/http"
 	"os"
 	"os/signal"
 	"path/filepath"
@@ -55,6 +56,8 @@ func main() {
 		os.Exit(1)
 	}
 
+	go startHealthServer(logger)
+
 	go func() {
 		ch := make(chan os.Signal, 1)
 		signal.Notify(ch, syscall.SIGINT, syscall.SIGTERM)
@@ -64,4 +67,27 @@ func main() {
 	}()
 
 	b.Start()
+}
+
+func startHealthServer(logger *slog.Logger) {
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+
+	mux := http.NewServeMux()
+	mux.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		_, _ = w.Write([]byte("ok"))
+	})
+	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "text/plain; charset=utf-8")
+		_, _ = w.Write([]byte("Tarelka-Bot is running. Talk to it in Telegram."))
+	})
+
+	addr := ":" + port
+	logger.Info("health server listening", "addr", addr)
+	if err := http.ListenAndServe(addr, mux); err != nil {
+		logger.Error("health server", "err", err)
+	}
 }
