@@ -1,0 +1,16 @@
+services:
+  bot:
+    build: .
+    image: food-kbju-bot:latest
+    container_name: food-kbju-bot
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      DATABASE_PATH: /data/kbju.db
+      TIMEZONE: ${TIMEZONE:-Europe/Moscow}
+    volumes:
+      - kbju-data:/data
+
+volumes:
+  kbju-data:

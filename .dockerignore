@@ -1,0 +1,10 @@
+.git
+.env
+bin/
+dist/
+data/
+*.md
+*.db
+.DS_Store
+Dockerfile
+docker-compose.yml
