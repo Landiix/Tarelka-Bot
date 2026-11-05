@@ -1,7 +1,28 @@
-.env
+# Binaries
 bin/
 dist/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+
+# Coverage
+*.out
+coverage.*
+!coverage.go
+*.coverprofile
+profile.cov
+
+# Env and local data
+.env
 data/
 *.db
-*.exe
+
+# Go workspace
+go.work
+go.work.sum
+
+# OS / IDE
 .DS_Store

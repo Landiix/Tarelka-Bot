@@ -1,6 +1,6 @@
-# food-kbju-bot
+# Tarelka-Bot
 
-Telegram-бот на Go: фото еды → приблизительная оценка КБЖУ, дневник питания, статистика и рекомендации.
+Telegram-бот на Go: по фото еды считает КБЖУ (калории, белки, жиры, углеводы), ведёт дневник, статистику и даёт рекомендации.
 
 ## Требования
 
@@ -51,19 +51,16 @@ docker compose logs -f
 
 ## Деплой на сервер (VPS)
 
-На любом Linux с Docker (Timeweb, Selectel, Hetzner, Beget и т.д.):
-
 ```bash
-# на сервере
-git clone <твой-репо> food-kbju-bot && cd food-kbju-bot
+git clone https://github.com/Landiix/Tarelka-Bot.git
+cd Tarelka-Bot
+cp .env.example .env
 nano .env   # BOT_TOKEN, GEMINI_API_KEY, ALLOWED_USER_IDS, TIMEZONE
 docker compose up -d --build
 docker compose logs -f bot
 ```
 
 Публичный порт и домен **не нужны** — бот ходит в Telegram сам (long polling).
-
-Остановить Mac-хостинг: `Ctrl+C` / убить локальный `go run`.
 
 ## Важно
 
